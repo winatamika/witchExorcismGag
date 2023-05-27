@@ -4,11 +4,6 @@ class PatternGenerator
 {
     private $fibonacci;
 
-    public function __construct()
-    {
-        $this->fibonacci = [1, 1];
-    }
-
     public function generatePattern($iterations)
     {
         $result = [];

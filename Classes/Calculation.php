@@ -1,14 +1,17 @@
 <?php
 
-require_once 'PatternGenerator.php'; // Include the PatternGenerator class file
+require_once 'PatternGenerator.php';
+require_once 'Helpers.php';
 
 class Calculation
 {
     private $patternGenerator;
+    private $Helpers;
 
     public function __construct()
     {
         $this->patternGenerator = new PatternGenerator();
+        $this->Helpers = new Helpers();
     }
 
     public function getKillingCount($year, $age)
@@ -30,7 +33,7 @@ class Calculation
     foreach ($pattern as $value) {
         $yearLabel = ($i === 1) ? "year" : "years";
         $villagerLabel = ($i === 1) ? "villager" : "villagers";
-        $summary .= "On the ".$this->getOrdinalSuffix($i)." ".$yearLabel." she kills ".$value." ".$villagerLabel."<br>";
+        $summary .= "On the ".$this->Helpers->getOrdinalSuffix($i)." ".$yearLabel." she kills ".$value." ".$villagerLabel."<br>";
         $i++;
     }
 
@@ -44,22 +47,5 @@ class Calculation
 
         return $average;
     }
-
-    public function getOrdinalSuffix($number)
-    {
-        if ($number % 100 >= 11 && $number % 100 <= 13) {
-            return $number . 'th';
-        } else {
-            switch ($number % 10) {
-                case 1:
-                    return $number . 'st';
-                case 2:
-                    return $number . 'nd';
-                case 3:
-                    return $number . 'rd';
-                default:
-                    return $number . 'th';
-            }
-        }
-    }
+    
 }

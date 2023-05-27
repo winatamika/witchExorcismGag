@@ -31,8 +31,9 @@
 
             <div style="margin:10px; ">
                 <button onclick="addInputFields()" class="btn btn-primary">Add More</button>
-                <button onclick="calculatePattern()" class="btn btn-success">Calculate</button>
+                <button onclick="calculatePattern()" class="btn btn-success" >Calculate</button>
             </div>
+
         </div>
 
         <div class="result-container" id="resultContainer" style="display: none; ">
@@ -44,6 +45,28 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Counting result...</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center">
+                <h1>BYE WITCH !!</h1>
+                <h1><b> Our Average Count Is <b><label id="averageModal"></label></b></h1>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
 
     <!-- Add Bootstrap JS and jQuery links -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -139,7 +162,9 @@
                         $('#description').html(description);
                         $('#averageDesc').html(averageDesc);
                         $('#average').html('Average: <b>' + average + '</b>');
+                        $('#averageModal').html(average);
                         $('#resultContainer').show();
+                        $('#exampleModal').modal('show');
                     } else {
                         alert('An error occurred during the calculation.');
                     }
