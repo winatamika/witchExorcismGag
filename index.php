@@ -4,20 +4,16 @@
     <title>Witch Exorcism Calculation</title>
     <!-- Add Bootstrap CSS link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css">
-    <style>
-        /* Remove your custom styles, as Bootstrap will handle the styling */
-
-        .result-container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Add Bootstrap JS and jQuery links -->
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src='js/jquery-2.1.3.min.js'></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/fireworks.js"></script>
+    <script src="js/core.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="container">
         <div class="form-container">
             <h2>Witch Exorcism Calculation</h2>
             <div id="inputFieldsContainer">
@@ -29,14 +25,18 @@
                 </div>
             </div>
 
-            <div style="margin:10px; ">
+            <div class="button-container">
                 <button onclick="addInputFields()" class="btn btn-primary">Add More</button>
                 <button onclick="calculatePattern()" class="btn btn-success" >Calculate</button>
+                <button id="summonFireworks" style="display:none">Summon</button>
+                <button id="destroyFireworks" style="display:none">Destroy</button>
             </div>
+
+           
 
         </div>
 
-        <div class="result-container" id="resultContainer" style="display: none; ">
+        <div class="result-container" id="resultContainer" >
             <h3>Result</h3>
             <p id="summary"></p>
             <p id="description"></p>
@@ -56,7 +56,7 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" style="text-align: center">
+            <div class="modal-body">
                 <h1>BYE WITCH !!</h1>
                 <h1><b> Our Average Count Is <b><label id="averageModal"></label></b></h1>
             </div>
@@ -67,113 +67,5 @@
         </div>
         </div>
 
-
-    <!-- Add Bootstrap JS and jQuery links -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.min.js"></script>
-    <script>
-    var fieldIndex = 1;
-
-    function addInputFields() {
-        fieldIndex++;
-        var inputFieldsHTML =
-            `<div class="input-fields">
-                <label for="year${fieldIndex}">Year:</label>
-                <input type="text" id="year${fieldIndex}" class="form-control" placeholder="Enter year">
-                <label for="age${fieldIndex}">Age:</label>
-                <input type="text" id="age${fieldIndex}" class="form-control" placeholder="Enter age">
-                <button class="btn btn-danger delete-btn" style="margin:5px;" onclick="deleteInputFields(this)">Delete</button>
-            </div>`;
-
-        $('#inputFieldsContainer').append(inputFieldsHTML);
-    }
-
-    function deleteInputFields(button) {
-            $(button).closest('.input-fields').remove();
-        }
-
-    function calculatePattern() {
-         // Hide the result container initially
-         $('#resultContainer').hide();
-
-        var inputFields = $('.input-fields');
-        var data = [];
-
-        var validInput = true; // Flag to track input validity
-
-        // Retrieve the values from all input fields
-        inputFields.each(function() {
-            var year = $(this).find('input[type="text"]').eq(0).val();
-            var age = $(this).find('input[type="text"]').eq(1).val();
-
-            // Validate input
-            if (year.trim() === '' || age.trim() === '') {
-                alert('Please enter both year and age.');
-                validInput = false;
-                return;
-            }
-
-            // Validate negative numbers
-            if (year < 0 || age < 0) {
-                alert('Year and age must be positive numbers.');
-                validInput = false;
-                return;
-            }
-
-
-            // Convert year and age to numbers
-            year = parseInt(year);
-            age = parseInt(age);
-
-            // Validate age
-            if (isNaN(year) || isNaN(age) || age >= year) {
-                alert('Invalid age value for year ' + year + '. Age must be less than year.');
-                validInput = false;
-                return;
-            }
-
-            data.push({
-                year: year,
-                age: age
-            });
-        });
-
-        if (!validInput) {
-            return; // Exit the function if input is invalid
-        }
-
-        // Perform the calculation
-           // Send AJAX request to calculation.php
-           $.ajax({
-                url: 'Action/calculate.php',
-                method: 'POST',
-                data: { data: JSON.stringify(data) },
-                success: function(response) {
-                    var result = response;
-                    //var result = JSON.parse(response);
-                    if (result.success) {
-                        var summary  = result.summary ;
-                        var description  = result.description ;
-                        var average = result.average;
-                        var averageDesc = result.averageDesc;
-
-                        // Display the result
-                        $('#summary').html(summary);
-                        $('#description').html(description);
-                        $('#averageDesc').html(averageDesc);
-                        $('#average').html('Average: <b>' + average + '</b>');
-                        $('#averageModal').html(average);
-                        $('#resultContainer').show();
-                        $('#exampleModal').modal('show');
-                    } else {
-                        alert('An error occurred during the calculation.');
-                    }
-                },
-                error: function() {
-                    alert('An error occurred during the AJAX request.');
-                }
-            });
-    }
-    </script>
 </body>
 </html>

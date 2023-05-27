@@ -1,0 +1,19 @@
+.result-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.button-container {
+    margin:10px;
+}
+
+.result-container {
+    display: none;
+}
+
+.modal-body {
+    text-align: center;
+}
